@@ -10,7 +10,7 @@ def index():
 # For Google Map API test purpose
 @app.route('/map')
 def map():
-    map_key = os.environ.get("GOOGLE_KEY")
+    map_key = os.environ.get("GOOGLE_KEY", "")
     return render_template('map.html', map_key=map_key)
 
 if __name__ == '__main__':
