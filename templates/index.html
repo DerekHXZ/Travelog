@@ -116,6 +116,12 @@
     }
   }
 
+  function checkLoginStatus() {
+    FB.getLoginStatus(function(response) {
+      statusChangeCallback(response);
+    });
+  }
+
   window.fbAsyncInit = function() {
   FB.init({
     appId      : '739575586113329',
@@ -123,11 +129,7 @@
     xfbml      : true,
     version    : 'v2.1'
   });
-
-  FB.getLoginStatus(function(response) {
-    statusChangeCallback(response);
-  });
-
+  checkLoginStatus();
   };
 
   (function(d, s, id) {
