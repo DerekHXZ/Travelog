@@ -1,19 +1,22 @@
 import json
 from plaid import Client
 
-client = Client(client_id='***', secret='***')
-connect = client.connect(account_type='bofa', username='***', password='***', email='john@whatever.com')
+client
+connect
+def setClient(clientId, clientSecret):
+    client = Client(client_id=clientId, secret=clientSecret)
 
-if connect.ok:
-    json_response = json.loads(connect.content)
+def connect(accountType, username, password, email):
+    connect = client.connect(account_type=accountType, username=username, password=password, email=email)
+    if connect.ok:
+        json_response = json.loads(connect.content)
 
-    print json_response['mfa'][0] # Should be something like "What's your mother's maiden name?"
+        return json_response['mfa'][0] # Should be something like "What's your mother's maiden name?"
 
-    step = client.step(account_type='bofa', mfa='Smith')
+def answerMFA(accountType, mfaAnswer):
+    step = client.step(account_type=accountType, mfa=mfaAnswer)
     if step.ok:
         transactions = json.loads(step.content)
 
-
-def getTransactions():
     trans = client.transactions
     print(trans)

@@ -50,7 +50,8 @@ def index():
 @app.route('/map')
 def map():
     map_key = os.environ.get("GOOGLE_KEY", "")
-    return render_template('map.html', map_key=map_key)
+    transactions = getTransactions()
+    return render_template('map.html', map_key=map_key, transactions=transactions)
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
