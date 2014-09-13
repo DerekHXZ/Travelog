@@ -25,6 +25,7 @@ def getFacebookId():
 def check():
     print "Called check"
     fbId = getFacebookId()
+    print fbId
     if fbId:
         if redis.exists(fbId):
             return "", 200
@@ -47,7 +48,7 @@ def auth():
 
             plaid = Plaid(PLAID_ID, PLAID_KEY)
             plaid.connect(accntype, username, password, email)
-            
+
     return "", 400
 
 @app.route('/')
