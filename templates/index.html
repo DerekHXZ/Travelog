@@ -81,11 +81,22 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <script>
 
-  function serverAuth(facebookId, facebookToken) {
-    console.log(facebookId);
-    console.log(facebookToken);
-    document.getElementById('server-auth').hidden = false;
-    
+  function serverConnect() {
+    $.ajax({
+      url: "/connect",
+      context: document.body,
+      statusCode: {
+        200: function() {
+          $('#svr-connect').hide();
+        },
+        201: function() {
+          $('#svr-connect').show();
+        },
+        403: function() {
+          alert("Check cookie");
+        }
+      }
+    });
   }
 
   // This is called with the results from from FB.getLoginStatus().
@@ -93,17 +104,15 @@
     console.log('statusChangeCallback');
     console.log(response);
     if (response.status === 'connected') {
-      document.getElementById('fb-login').hidden = true;
+      $('#fb-login').hide();
       FB.api('/me', function(response) {
         console.log('Successful login for: ' + response.name);
-        var status = document.getElementById('fb-status');
-        status.hidden = false;
-        status.innerHTML =
-          'Thanks for logging in, ' + response.name + '!';
+        $('#fb-status').hide();
+        $('#fb-status').text('Thanks for logging in, ' + response.name + '!');
       });
-      serverAuth(response.authResponse.userID, response.authResponse.accessToken);
+      serverConnect();
     } else {
-      document.getElementById('fb-login').hidden = false;
+      $('#fb-status').show();
     }
   }
 
