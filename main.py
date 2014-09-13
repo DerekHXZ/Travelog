@@ -53,6 +53,7 @@ def auth():
 
 @app.route('/')
 def index():
+    print("Started app, yasss!")
     return render_template('index.html')
 
 # For Google Map API test purpose
