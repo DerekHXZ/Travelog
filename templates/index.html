@@ -32,13 +32,47 @@
 <div class="container">
 
 <div class="starter-template">
-  <h1>Welcome to TraveLog</h1>
+  <h1>Welcome to TraveLog!</h1>
+  
   <div id="fb-login" class="fb-btn" hidden>
     <fb:login-button scope="public_profile,email" size="xlarge" onlogin="checkLoginState();">
       Login with Facebook
     </fb:login-button>
   </div>
-  
+
+  <div id="fb-status" class="fb-btn" hidden>
+  </div>
+
+  <div id="svr-connect" class="fb-btn" hidden>
+    <h3>Please provide your banking information</h3>
+    <form name="svr-login" action="#" method="POST">
+      <p>
+        <label>Your bank:&nbsp;</label>
+        <select name="type">
+          <option value="amex">American Express</option>
+          <option value="bofa">Bank of America</option>
+          <option value="chase">Chase</option>
+          <option value="citi">Citi</option>
+          <option value="us">US Bank</option>
+          <option value="usaa">USAA</option>
+          <option value="wells">Wells Fargo</option>
+        </select>
+      </p>
+      <p>
+        <label>Username:&nbsp;</label>
+        <input type="text" name="username">
+      </p>
+      <p>
+        <label>Password:&nbsp;</label>
+        <input type="password" name="password">
+      </p>
+      <p>
+        <button type="submit">Submit</button>
+        <button type="reset">Clear</button>
+      </p>
+    </form>
+  </div>
+
 </div>
 
 </div><!-- /.container -->
@@ -46,42 +80,40 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <script>
+
+  function serverAuth(facebookId, facebookToken) {
+    console.log(facebookId);
+    console.log(facebookToken);
+    document.getElementById('server-auth').hidden = false;
+    
+  }
+
   // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
     console.log('statusChangeCallback');
     console.log(response);
     if (response.status === 'connected') {
+      document.getElementById('fb-login').hidden = true;
+      FB.api('/me', function(response) {
+        console.log('Successful login for: ' + response.name);
+        var status = document.getElementById('fb-status');
+        status.hidden = false;
+        status.innerHTML =
+          'Thanks for logging in, ' + response.name + '!';
+      });
+      serverAuth(response.authResponse.userID, response.authResponse.accessToken);
     } else {
       document.getElementById('fb-login').hidden = false;
     }
   }
 
-  function checkLoginState() {
-    FB.getLoginStatus(function(response) {
-      statusChangeCallback(response);
-    });
-  }
-
   window.fbAsyncInit = function() {
   FB.init({
     appId      : '739575586113329',
-    cookie     : true,  // enable cookies to allow the server to access 
-                        // the session
-    xfbml      : true,  // parse social plugins on this page
-    version    : 'v2.1' // use version 2.1
+    cookie     : true,
+    xfbml      : true,
+    version    : 'v2.1'
   });
-
-  // Now that we've initialized the JavaScript SDK, we call 
-  // FB.getLoginStatus().  This function gets the state of the
-  // person visiting this page and can return one of three states to
-  // the callback you provide.  They can be:
-  //
-  // 1. Logged into your app ('connected')
-  // 2. Logged into Facebook, but not your app ('not_authorized')
-  // 3. Not logged into Facebook and can't tell if they are logged into
-  //    your app or not.
-  //
-  // These three cases are handled in the callback function.
 
   FB.getLoginStatus(function(response) {
     statusChangeCallback(response);
@@ -89,7 +121,6 @@
 
   };
 
-  // Load the SDK asynchronously
   (function(d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) return;

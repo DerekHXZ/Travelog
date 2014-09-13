@@ -1,8 +1,27 @@
 import os
+import facebook
+from store import redis
 from flask import Flask
+from flask import request
 from flask import render_template
 
 app = Flask(__name__)
+
+FB_KEY = os.environ.get("FACEBOOK_API_ID", "")
+FB_SECRET = os.environ.get("FACEBOOK_API_SECRET", "")
+REDIS_URL = os.getenv('REDISTOGO_URL', 'redis://localhost:6379')
+redis = redis.from_url(redis_url)
+
+@app.route('/connect')
+def plaidToken():
+    user = facebook.get_user_from_cookie(request.cookies, FB_KEY, FB_SECRET)
+    if user:
+        fbId = user["uid"]
+        if redis.exists(fbId):
+            return "", 200
+        else:
+            return "", 201
+    return "", 403
 
 @app.route('/')
 def index():
