@@ -107,12 +107,12 @@
       $('#fb-login').hide();
       FB.api('/me', function(response) {
         console.log('Successful login for: ' + response.name);
-        $('#fb-status').hide();
+        $('#fb-status').show();
         $('#fb-status').text('Thanks for logging in, ' + response.name + '!');
       });
       serverConnect();
     } else {
-      $('#fb-status').show();
+      $('#fb-login').show();
     }
   }
 
