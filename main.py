@@ -10,7 +10,6 @@ app = Flask(__name__)
 FB_KEY = os.environ.get("FACEBOOK_API_ID", "")
 FB_SECRET = os.environ.get("FACEBOOK_API_SECRET", "")
 REDIS_URL = os.getenv('REDISTOGO_URL', 'redis://localhost:6379')
-redis = redis.from_url(redis_url)
 
 @app.route('/connect')
 def plaidToken():
