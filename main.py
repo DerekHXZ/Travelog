@@ -23,7 +23,7 @@ def getFacebookId():
 
 @app.route('/connect', methods=['GET'])
 def check():
-    print "Called check"
+    print "Called check !!!!!!!!!!!!!"
     fbId = getFacebookId()
     if fbId:
         if redis.exists(fbId):
