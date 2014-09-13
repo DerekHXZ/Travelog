@@ -20,7 +20,7 @@ def plaidToken():
             return "", 200
         else:
             return "", 201
-    return "", 403
+    return FB_SECRET, 403
 
 @app.route('/')
 def index():
