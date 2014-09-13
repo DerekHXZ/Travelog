@@ -1,5 +1,6 @@
 import os
 import facebook
+import plaid
 from store import redis
 from flask import Flask
 from flask import request
@@ -40,6 +41,11 @@ def auth():
             accntype = request.form['type']
             username = request.form['username']
             password = request.form['password']
+            email = request.form['email']
+
+            plaid = Plaid(PLAID_ID, PLAID_KEY)
+            plaid.connect(accntype, username, password, email)
+            
     return "", 400
 
 @app.route('/')
