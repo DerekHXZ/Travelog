@@ -59,15 +59,11 @@ $("#svr-date").submit(function (e) {
         200: function() {
           $("#main").hide();
         },
-        201: function(response) {
-          $("#main").show();
-        },
         403: function() {
           alert("An error happened");
         }
       }
   });
-  e.preventDefault(); //STOP default action
 });
 
 
