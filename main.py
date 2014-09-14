@@ -103,8 +103,8 @@ def transactions():
     key = redis.get(fbId)
     daterange = request.form['daterange']
     dates = daterange.split("-")
-    start = dates[0].split("/").join("-")
-    end = dates[1].split("/").join("-")
+    start = "-".join(dates[0].split("/"))
+    end = "-".join(dates[1].split("/"))
     # start = time.strptime(dates[0].strip(), "%m/%d/%Y")
     # end = time.strptime(dates[1].strip(), "%m/%d/%Y")
     print("Got start and end")
