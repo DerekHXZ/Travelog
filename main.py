@@ -38,10 +38,11 @@ def check():
 def auth():
     print "Called auth"
     fbToken = request.cookies["fb_token"]
-    graph = facebook.GraphAPI(user["access_token"])
+    graph = facebook.GraphAPI(fbToken)
     if not graph:
         return "", 400
-    fbId = graph.id
+    profile = graph.get_object("me")
+    fbId = profile['id']
 
     accntype = request.form['type']
     username = request.form['username']
