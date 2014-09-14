@@ -23,7 +23,7 @@ def getFacebookId():
 
 @app.route('/connect', methods=['GET'])
 def check():
-    print "Called check !!!!!!!!!!!!!"
+    print "Called check"
     fbId = getFacebookId()
     print fbId
     if fbId:
@@ -53,12 +53,13 @@ def auth():
 
 @app.route('/')
 def index():
-    print("Started app, yasss!")
+    print("Called index")
     return render_template('index.html')
 
 # For Google Map API test purpose
 @app.route('/map')
 def map():
+    print("Called map")    
     map_key = os.environ.get("GOOGLE_KEY", "")
     transactions = getTransactions()
     return render_template('map.html', map_key=map_key, transactions=transactions)

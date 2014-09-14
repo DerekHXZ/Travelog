@@ -1,4 +1,5 @@
 function serverConnect() {
+  console.log("Connected server");
   $.ajax({
     url: "/connect",
     context: document.body,
