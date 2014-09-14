@@ -119,7 +119,7 @@ def transactions():
     print(transactions)
     if not transactions:
         return "", 403
-    return "", 200
+    return jsonify(transactions), 200
 
 @app.route('/')
 def index():
