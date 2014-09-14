@@ -97,7 +97,7 @@ function addMarker(plaidObject) {
     data: {"address": addr, "key": key},
     success: function(data) {
       console.log(data);
-      var loc = new google.maps.LatLng(data.results.geometry.location.lat, data.results.geometry.location.lng);
+      var loc = new google.maps.LatLng(data.results[0].geometry.location.lat, data.results[0].geometry.location.lng);
 
       var marker = new google.maps.Marker({
         position: loc,
