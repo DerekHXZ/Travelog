@@ -51,8 +51,9 @@ def auth():
 
     plaid = Plaid(PLAID_ID, PLAID_KEY)
     plaid_resp = plaid.connect(accntype, username, password, email)
+    print plaid_resp
     redis.set(fbId, plaid_resp['access_token'])
-    return str(plaid_resp), 200
+    return "", 200
 
 @app.route('/')
 def index():

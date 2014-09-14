@@ -16,6 +16,7 @@ class Plaid:
         step = self.client.step(account_type=accountType, mfa=mfaAnswer)
         if step.ok:
             transactions = json.loads(step.content)
+            return transactions
 
-        trans = self.client.transactions
-        print(trans)
+    def transactions():
+        return self.client.transactions
