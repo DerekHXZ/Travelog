@@ -3,7 +3,7 @@ var markers = [];
 var openInfoWindows = [];
 var myLoc;
 
-var plaidObjects = [
+var bloopplaidObjects = [
 {
   meta: {
     location: {
