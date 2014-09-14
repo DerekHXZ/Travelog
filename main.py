@@ -103,14 +103,14 @@ def transactions():
     key = redis.get(fbId)
     daterange = request.form['daterange']
     dates = daterange.split("-")
-    start = time.strptime(dates[0].strip(), "%m/%d/%Y").isoformat()
-    end = time.strptime(dates[1].strip(), "%m/%d/%Y").isoformat()
+    start = time.strptime(dates[0].strip(), "%m/%d/%Y")
+    end = time.strptime(dates[1].strip(), "%m/%d/%Y")
     print("Got start and end")
     plaid = Plaid(PLAID_ID, PLAID_KEY, key)
     print("got keys")
     transactions = plaid.getTransactions(options={
-            'gte':start,
-            'lte':end
+            'gte':time.isoformat(start),
+            'lte':time.isoformat(end)
         })
     print("got transactions")
     print(start + " " + end)
