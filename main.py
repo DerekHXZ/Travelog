@@ -1,5 +1,6 @@
 import os
 import facebook
+import time
 from plaid_client import Plaid
 from store import redis
 from flask import Flask
@@ -101,11 +102,10 @@ def transactions():
         return "", 403
     key = redis.get(fbId)
     daterange = request.form['daterange']
-    print("Range " + daterange)
     dates = daterange.split("-")
-    print("Range split into " + dates[0] + " and " + dates[1])    
-    start = date(dates[0].strip()).isoformat()
-    end = date(dates[1].strip()).isoformat()
+    print("Read date: " + time.strptime(dates[0].strip(), "%m %d %y"))
+    start = time.strptime(dates[0].strip(), "%m %d %y").isoformat()
+    end = time.strptime(dates[1].strip(), "%m %d %y").isoformat()
     print("Start: " + start)
     print("End " + end)
     plaid = Plaid(PLAID_ID, PLAID_KEY, key)
