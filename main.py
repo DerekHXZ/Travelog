@@ -1,6 +1,7 @@
 import os
 import facebook
 import time
+import json
 from plaid_client import Plaid
 from store import redis
 from flask import Flask
@@ -8,7 +9,6 @@ from flask import redirect
 from flask import request
 from flask import render_template
 from flask import make_response
-from flask import jsonify
 
 app = Flask(__name__)
 
@@ -112,9 +112,9 @@ def transactions():
         })
     if not transactions:
         return "", 403
-    print(transactions)
+    print(transactions['transcations'])
     map_key = os.environ.get("GOOGLE_KEY", "")
-    return render_template('map.html', map_key=map_key, transactions=jsonify(transactions['transactions']))
+    return render_template('map.html', map_key=map_key, transactions=json.dumps(transactions['transactions']))
 
 @app.route('/')
 def index():
