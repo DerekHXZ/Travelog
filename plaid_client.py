@@ -3,8 +3,8 @@ from plaid import Client
 
 class Plaid:
 
-    def __init__(self, clientId, clientSecret):
-        self.client = Client(client_id=clientId, secret=clientSecret)
+    def __init__(self, clientId, clientSecret, accessToken=None):
+        self.client = Client(client_id=clientId, secret=clientSecret, access_token=accessToken)
 
     def connect(self, accountType, username, password, email):
         connect = self.client.connect(account_type=accountType, username=username, password=password, email=email)
@@ -18,5 +18,8 @@ class Plaid:
             transactions = json.loads(step.content)
             return transactions
 
-    def transactions():
-        return self.client.transactions
+    def transactions(self, options=None):
+        return self.client.transaction(options)
+
+    def delete(self):
+        self.client.delete_user()

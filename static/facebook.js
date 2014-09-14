@@ -1,7 +1,23 @@
-function mfaResonse(response) {
-  $("#svr-veri").show();
-  $("#svr-question").text(response);
-}
+$("#svr-veriform").submit(function(e) {
+  var postData = $(this).serializeArray();
+  var formURL = $(this).attr("action");
+  $.ajax(
+  {
+      url : formURL,
+      type: "POST",
+      data : postData,
+      statusCode : {
+        200: function() {
+          $("#svr-connect").hide();
+          $("#main").show();
+        },
+        403: function() {
+          alert("An error happened");
+        }
+      }
+  });
+  e.preventDefault(); //STOP default action
+})
 
 $("#svr-login").submit(function (e) {
   var postData = $(this).serializeArray();
@@ -15,11 +31,14 @@ $("#svr-login").submit(function (e) {
       statusCode : {
         200: function() {
           $("#svr-connect").hide();
+          $('#svr-status').show();
           $("#main").show();
         },
         201: function(response) {
           $("#svr-connect").hide();
-          mfaResponse(response);
+          $('#svr-status').show();
+          $("#svr-veri").show();
+          $("#svr-question").text(response);
         },
         403: function() {
           alert("An error happened");
@@ -27,7 +46,6 @@ $("#svr-login").submit(function (e) {
       }
   });
   e.preventDefault(); //STOP default action
-  e.unbind(); //unbind. to stop multiple form submit.
 });
 
 function serverConnect() {
@@ -39,6 +57,8 @@ function serverConnect() {
     statusCode: {
       200: function() {
         $('#svr-connect').hide();
+        $('#svr-status').show();
+        $('#svr-status').text('Account linked');
         $('#main').show();
       },
       201: function() {
