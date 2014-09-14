@@ -93,6 +93,30 @@ def auth():
     else:
         return "", 200
 
+@app.route('/transcations', methods=['POST'])
+def auth():
+    print "Called transactions"
+    fbId = getFbId()
+    if not fbId:
+        return "", 403
+    key = redis.get(fbId)
+    daterange = request.form['daterange']
+    print("Range " + daterange)
+    dates = daterange.split("-")
+    start = date(dates[0]).isoformat()
+    end = date(dates[1]).isoformat()
+    print("Start: " + start)
+    print("End " + end)
+    plaid = Plaid(PLAID_ID, PLAID_KEY, key)
+    transactions = plaid.getTransactions(options={
+            gte:start,
+            lte:end
+        })
+    print(transactions)
+    if not transactions:
+        return "", 403
+    return "", 200
+
 @app.route('/')
 def index():
     print("Called index")

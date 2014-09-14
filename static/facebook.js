@@ -21,7 +21,6 @@ $("#svr-veriform").submit(function(e) {
 
 $("#svr-login").submit(function (e) {
   var postData = $(this).serializeArray();
-  postData.push({name:"date", value:picker});
   var formURL = $(this).attr("action");
   $.ajax(
   {
@@ -47,6 +46,30 @@ $("#svr-login").submit(function (e) {
   });
   e.preventDefault(); //STOP default action
 });
+
+$("#svr-date").submit(function (e) {
+  var postData = $(this).serializeArray();
+  var formURL = $(this).attr("action");
+  $.ajax(
+  {
+      url : formURL,
+      type: "POST",
+      data : postData,
+      statusCode : {
+        200: function() {
+          $("#main").hide();
+        },
+        201: function(response) {
+          $("#main").show();
+        },
+        403: function() {
+          alert("An error happened");
+        }
+      }
+  });
+  e.preventDefault(); //STOP default action
+});
+
 
 function serverConnect() {
   console.log("Connected server");

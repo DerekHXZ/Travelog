@@ -73,14 +73,6 @@
         <label>Email:&nbsp;</label>
         <input type="text" name="email">
       </p>
-
-      <div class="form-group">
-        <label for="reservationtime">Date Range:</label>
-        <div class="input-group">
-          <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" name="daterange" id="daterange" class="form-control" value="08/13/2014 - 09/13/2014" />
-        </div>
-      </div>
-
       <p>
         <button type="submit">Submit</button>
         <button type="reset">Clear</button>
@@ -109,12 +101,24 @@
   </div>
 
   <div id="main" hidden>
-   
+
+    <form name="svr-dateform" id="svr-date" action="/transactions" method="POST">
+    <div class="form-group">
+      <label for="reservationtime">Pick a date range for transactions:</label>
+      <div class="input-group" style="width:250px">
+        <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" name="daterange" id="daterange" class="form-control" value="08/13/2014 - 09/13/2014" />
+      </div>
+    </div>
+    <p>
+      <button type="submit">Submit</button>
+    </p>
+    </form>    
+
   </div>
 
 </div>
 
-</div><!-- /.container -->
+</div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
