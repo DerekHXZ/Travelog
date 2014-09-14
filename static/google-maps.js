@@ -73,32 +73,45 @@ function initialize() {
   for (var i=0; i<plaidObjects.length; i++) {
     addMarker(plaidObjects[i]);
   }
-
-  //console.log(isFraudulent());
 }
 
 // Add a marker to the map and push to the array.
 function addMarker(plaidObject) {
-  var loc = new google.maps.LatLng(plaidObject.meta.location.coordinates.lat, plaidObject.meta.location.coordinates.lng);
+  var url = "http://maps.googleapis.com/maps/api/geocode/output?address=";
+  url += plaidObject.name.replace(/\s/g, "+");
+  url += plaidObject.meta.location.coordinates.city.replace(/\s/g, "+");
+  url += plaidObject.meta.location.coordinates.state.replace(/\s/g, "+");
+  url += key;
 
-  var marker = new google.maps.Marker({
-    position: loc,
-    title: "Charged " + plaidObject.amount + " at " + plaidObject.name,
-    map: map
+  $.ajax({
+    url: url,
+    data: data,
+    success: function(data) {
+      console.log(data);
+      var loc = new google.maps.LatLng(data.results.geometry.location.lat, data.results.geometry.location.lng);
+
+      var marker = new google.maps.Marker({
+        position: loc,
+        title: "Charged " + plaidObject.amount + " at " + plaidObject.name,
+        map: map
+      });
+
+      google.maps.event.addListener(marker, 'click', function(event) {
+        map.setZoom(15);
+        map.setCenter(marker.getPosition());
+
+        var infowindow = new google.maps.InfoWindow({
+          content: "<span>" + marker.title + "</span>"
+        });
+        openInfoWindows.push(infowindow);
+        infowindow.open(map,marker);
+      });
+
+      markers.push(marker);
+
+    },
+    dataType: dataType
   });
-
-  google.maps.event.addListener(marker, 'click', function(event) {
-    map.setZoom(15);
-    map.setCenter(marker.getPosition());
-
-    var infowindow = new google.maps.InfoWindow({
-      content: "<span>" + marker.title + "</span>"
-    });
-    openInfoWindows.push(infowindow);
-    infowindow.open(map,marker);
-  });
-
-  markers.push(marker);
 }
 
 // Sets the map on all markers in the array.
@@ -131,28 +144,7 @@ function closeOpenWindows() {
   }
 }
 
-function isFraudulent() {
-  var params = "origins=" + myLoc.lat() + "," + myLoc.lng() + "&destinations=";
-  for (var i = 0; i < markers.length; i++) {
-    params += marker[i].getPosition().lat() + "," + marker[i].getPosition().lng();
-    if (i != markers.length-1) {
-      params += "|";
-    }
-  }
-
-  console.log(params);
-
-  $.ajax({
-    url: "http://maps.googleapis.com/maps/api/distancematrix/output?" + params,
-    data: data,
-    success: function(data) {
-      console.log(data);
-      for (var element in data.rows.elements) {
-        console.log(element.duration.text);
-      }
-    },
-    dataType: dataType
-  });
+function getCoordinates(name, city, state, key) {
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
