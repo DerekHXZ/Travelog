@@ -52,8 +52,7 @@ def unlink():
     fbId = getFbId()
     if not fbId:
         return "", 403
-    key = redis.get(fbId)
-    redis.delete(key)
+    redis.delete(fbId)
     plaid = Plaid(PLAID_ID, PLAID_KEY, key)
     plaid.delete()
     return redirect("/", code=302)
