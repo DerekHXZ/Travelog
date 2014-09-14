@@ -55,11 +55,11 @@ var bloopplaidObjects = [
 ];
 
 function initialize() {
-  var myLoc = new google.maps.LatLng(40.8075,-73.9619);
+  var myLoc = new google.maps.LatLng(37.6,-95.665);
   
   var mapOptions = {
     center: myLoc,
-    zoom: 8
+    zoom: 4
   };
 
   map = new google.maps.Map(document.getElementById('map-canvas'),
