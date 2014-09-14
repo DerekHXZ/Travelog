@@ -18,7 +18,7 @@ def getFacebookId():
     user = facebook.get_user_from_cookie(request.cookies, FB_KEY, FB_SECRET)
     if user:
         graph = facebook.GraphAPI(user["access_token"])
-        print graph.extend_access_token(FB_KEY, FB_SECRET)
+        # print graph.extend_access_token(FB_KEY, FB_SECRET)
         return user["uid"]
     else:
         return None
