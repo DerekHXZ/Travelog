@@ -53,7 +53,7 @@ def unlink():
     if not fbId:
         return "", 403
     key = redis.get(fbId)
-    redis.delete(key)
+    redis.delete(fbId)
     plaid = Plaid(PLAID_ID, PLAID_KEY, key)
     plaid.delete()
     return redirect("/", code=302)
@@ -96,6 +96,7 @@ def auth():
 
 @app.route('/transactions', methods=['POST'])
 def transactions():
+    print "Called transactions"
     fbId = getFbId()
     if not fbId:
         return "", 403
@@ -104,11 +105,18 @@ def transactions():
     dates = daterange.split("-")
     start = "-".join(dates[0].split("/"))
     end = "-".join(dates[1].split("/"))
+    # start = time.strptime(dates[0].strip(), "%m/%d/%Y")
+    # end = time.strptime(dates[1].strip(), "%m/%d/%Y")
+    print("Got start and end")
     plaid = Plaid(PLAID_ID, PLAID_KEY, key)
+    print("got keys")
     transactions = plaid.getTransactions(options={
             'gte':start,
             'lte':end
         })
+    print("got transactions")
+    print(start + " " + end)
+    print(transactions)
     if not transactions:
         return "", 403
     transactions = jsonify(transactions["transactions"])
