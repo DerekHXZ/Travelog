@@ -1,10 +1,11 @@
 import os
 import facebook
-import plaid
+from plaid_client import Plaid
 from store import redis
 from flask import Flask
 from flask import request
 from flask import render_template
+from flask import make_response
 
 app = Flask(__name__)
 
@@ -13,9 +14,6 @@ PLAID_KEY = os.environ.get("PLAID_KEY", "")
 FB_KEY = os.environ.get("FACEBOOK_API_ID", "")
 FB_SECRET = os.environ.get("FACEBOOK_API_SECRET", "")
 REDIS_URL = os.getenv('REDISTOGO_URL', 'redis://localhost:6379')
-
-def getFacebookId():
-
 
 @app.route('/connect', methods=['GET'])
 def check():
@@ -29,7 +27,8 @@ def check():
         else:
             ret = 201
         new_token = graph.extend_access_token(FB_KEY, FB_SECRET)
-        resp = make_response("", ret)
+        resp = make_response("")
+        resp.status_code = ret
         resp.set_cookie("fb_token", new_token["access_token"])
         return resp
 
@@ -39,10 +38,11 @@ def check():
 def auth():
     print "Called auth"
     fbToken = request.cookies["fb_token"]
-    graph = facebook.GraphAPI(user["access_token"])
+    graph = facebook.GraphAPI(fbToken)
     if not graph:
         return "", 400
-    fbId = graph.id
+    profile = graph.get_object("me")
+    fbId = profile['id']
 
     accntype = request.form['type']
     username = request.form['username']
