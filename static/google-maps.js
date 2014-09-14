@@ -77,7 +77,7 @@ function initialize() {
 
 // Add a marker to the map and push to the array.
 function addMarker(plaidObject) {
-  var url = "https://maps.googleapis.com/maps/api/geocode/output";
+  var url = "https://maps.googleapis.com/maps/api/geocode/json";
   var addr = plaidObject.name.replace(/\s/g, "+");
   if (plaidObject.meta.location.city != null) {
     addr += plaidObject.meta.location.city.replace(/\s/g, "+");
@@ -85,6 +85,12 @@ function addMarker(plaidObject) {
   if (plaidObject.meta.location.state != null) {
     addr += plaidObject.meta.location.state.replace(/\s/g, "+");
   }
+
+//  var geocoder = new google.maps.Geocoder();
+//  var geocoderRequest = { address: addr };
+//  geocoder.geocode(geocoderRequest, function(results, status){
+//    //do your result related activities here, maybe push the coordinates to the backend for later use, etc.
+//  });
 
   $.ajax({
     url: url,
