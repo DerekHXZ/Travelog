@@ -79,8 +79,8 @@ function initialize() {
 function addMarker(plaidObject) {
   var url = "http://maps.googleapis.com/maps/api/geocode/output?address=";
   url += plaidObject.name.replace(/\s/g, "+");
-  url += plaidObject.meta.location.coordinates.city.replace(/\s/g, "+");
-  url += plaidObject.meta.location.coordinates.state.replace(/\s/g, "+");
+  url += plaidObject.meta.location.city.replace(/\s/g, "+");
+  url += plaidObject.meta.location.state.replace(/\s/g, "+");
   url += key;
 
   $.ajax({
