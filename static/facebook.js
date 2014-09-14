@@ -20,6 +20,7 @@ $("#svr-login").submit(function (e) {
 })
 
 function serverConnect() {
+  console.log("Connected server");
   $.ajax({
     url: "/connect",
     method: "GET",
