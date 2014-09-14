@@ -1,6 +1,28 @@
+$("#svr-login").submit(function (e) {
+  var postData = $(this).serializeArray();
+  var formURL = $(this).attr("action");
+  $.ajax(
+  {
+      url : formURL,
+      type: "POST",
+      data : postData,
+      success:function(data, textStatus, jqXHR) 
+      {
+          console.log(data)
+      },
+      error: function(jqXHR, textStatus, errorThrown) 
+      {
+          //if fails      
+      }
+  });
+  e.preventDefault(); //STOP default action
+  e.unbind(); //unbind. to stop multiple form submit.
+})
+
 function serverConnect() {
   $.ajax({
     url: "/connect",
+    method: "GET",
     context: document.body,
     statusCode: {
       200: function() {
@@ -9,7 +31,7 @@ function serverConnect() {
       201: function() {
         $('#svr-connect').show();
       },
-      403: function() {
+      400: function() {
         alert("Check cookie");
       }
     }
@@ -30,8 +52,8 @@ function statusChangeCallback(response) {
     serverConnect();
   } else {
     $('#fb-login').show();
-  }
 }
+  }
 
 function checkLoginStatus() {
   FB.getLoginStatus(function(response) {

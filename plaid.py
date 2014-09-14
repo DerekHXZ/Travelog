@@ -2,8 +2,7 @@ import json
 from plaid import Client
 
 class Plaid:
-    client
-    connect
+
     def __init__(self, clientId, clientSecret):
          client = Client(client_id=clientId, secret=clientSecret)
 
@@ -11,8 +10,7 @@ class Plaid:
         connect = client.connect(account_type=accountType, username=username, password=password, email=email)
         if connect.ok:
             json_response = json.loads(connect.content)
-
-            print json_response['mfa'][0] # Should be something like "What's your mother's maiden name?"
+            return json_response['access_token'];
 
     def answerMFA(accountType, mfaAnswer):
         step = client.step(account_type=accountType, mfa=mfaAnswer)

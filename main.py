@@ -47,7 +47,9 @@ def auth():
             email = request.form['email']
 
             plaid = Plaid(PLAID_ID, PLAID_KEY)
-            plaid.connect(accntype, username, password, email)
+            secret_key = plaid.connect(accntype, username, password, email)
+            redis.set(fbId, secret_key)
+            return secret_key, 200
 
     return "", 400
 
