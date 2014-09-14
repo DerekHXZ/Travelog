@@ -93,7 +93,7 @@ def auth():
     else:
         return "", 200
 
-@app.route('/transcations', methods=['POST'])
+@app.route('/transactions', methods=['POST'])
 def transactions():
     print "Called transactions"
     fbId = getFbId()
