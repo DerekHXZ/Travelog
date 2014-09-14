@@ -4,9 +4,12 @@
 <title>TraveLog</title>
 <meta charset="UTF-8">
 <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="static/styles/starter-template.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" media="all" href="static/styles/daterangepicker-bs3.css" />
+<link rel="stylesheet" href="static/styles/starter-template.css">
 <!-- End Bootstrap -->
 </head>
 <body>
@@ -70,6 +73,14 @@
         <label>Email:&nbsp;</label>
         <input type="text" name="email">
       </p>
+
+      <div class="form-group">
+        <label for="reservationtime">Date Range:</label>
+        <div class="input-group">
+          <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" name="daterange" id="daterange" class="form-control" value="08/13/2014 - 09/13/2014" />
+        </div>
+      </div>
+
       <p>
         <button type="submit">Submit</button>
         <button type="reset">Clear</button>
@@ -99,7 +110,13 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="{{url_for('static', filename='moment.js') }}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='daterangepicker.js') }}"></script>
 <script type=text/javascript src="{{url_for('static', filename='facebook.js') }}"></script>
-
+<script type="text/javascript">
+$(document).ready(function() {
+  $('#daterange').daterangepicker({ timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY' });
+});
+</script>
 </body>
 </html>

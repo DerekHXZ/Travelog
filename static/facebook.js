@@ -5,6 +5,7 @@ function mfaResonse(response) {
 
 $("#svr-login").submit(function (e) {
   var postData = $(this).serializeArray();
+  postData.push({name:"date", value:picker});
   var formURL = $(this).attr("action");
   $.ajax(
   {
@@ -27,7 +28,7 @@ $("#svr-login").submit(function (e) {
   });
   e.preventDefault(); //STOP default action
   e.unbind(); //unbind. to stop multiple form submit.
-})
+});
 
 function serverConnect() {
   console.log("Connected server");
