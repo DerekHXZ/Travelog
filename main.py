@@ -50,10 +50,9 @@ def auth():
     email = request.form['email']
 
     plaid = Plaid(PLAID_ID, PLAID_KEY)
-    secret_key = plaid.connect(accntype, username, password, email)
-    print secret_key
-    # redis.set(fbId, secret_key)
-    return secret_key, 200
+    plaid_resp = plaid.connect(accntype, username, password, email)
+    redis.set(fbId, plaid_resp['access_token'])
+    return str(plaid_resp), 200
 
 @app.route('/')
 def index():

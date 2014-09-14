@@ -10,7 +10,7 @@ class Plaid:
         connect = self.client.connect(account_type=accountType, username=username, password=password, email=email)
         if connect.ok:
             json_response = json.loads(connect.content)
-            return json_response['access_token'];
+            return json_response;
 
     def answerMFA(self, accountType, mfaAnswer):
         step = self.client.step(account_type=accountType, mfa=mfaAnswer)
