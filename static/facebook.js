@@ -10,7 +10,7 @@ $("#svr-veriform").submit(function(e) {
         200: function() {
           $("#svr-connect").hide();
           $("#main").show();
-        }
+        },
         403: function() {
           alert("An error happened");
         }
