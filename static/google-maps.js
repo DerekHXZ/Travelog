@@ -77,7 +77,7 @@ function initialize() {
 
 // Add a marker to the map and push to the array.
 function addMarker(plaidObject) {
-  var url = "http://maps.googleapis.com/maps/api/geocode/output";
+  var url = "https://maps.googleapis.com/maps/api/geocode/output";
   var addr = plaidObject.name.replace(/\s/g, "+");
   if (plaidObject.meta.location.city != null) {
     addr += plaidObject.meta.location.city.replace(/\s/g, "+");
