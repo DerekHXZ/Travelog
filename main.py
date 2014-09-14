@@ -94,7 +94,7 @@ def auth():
         return "", 200
 
 @app.route('/transcations', methods=['POST'])
-def auth():
+def transactions():
     print "Called transactions"
     fbId = getFbId()
     if not fbId:
