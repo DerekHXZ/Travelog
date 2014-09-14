@@ -20,7 +20,9 @@ class Plaid:
 
     def getTransactions(self, options=None):
         print options
-        return self.client.transactions(options)
+        transactions = self.client.transactions(options)
+        if transactions.ok:
+            return json.loads(transactions.content)
 
     def delete(self):
         self.client.delete_user()
