@@ -55,11 +55,11 @@ var bloopplaidObjects = [
 ];
 
 function initialize() {
-  var myLoc = new google.maps.LatLng(40.8075,-73.9619);
+  var myLoc = new google.maps.LatLng(37.6,-95.665);
   
   var mapOptions = {
     center: myLoc,
-    zoom: 8
+    zoom: 4
   };
 
   map = new google.maps.Map(document.getElementById('map-canvas'),
@@ -78,12 +78,15 @@ function initialize() {
 // Add a marker to the map and push to the array.
 function addMarker(plaidObject) {
   var url = "https://maps.googleapis.com/maps/api/geocode/json";
-  var addr = plaidObject.name.replace(/\s/g, "+");
+  var addrGrp = plaidObject.name.split(" ");
+  var addr = addrGrp[0];
+  if (addr.length < 5)
+      addr += "+" + addrGrp[1];
   if (plaidObject.meta.location.city != null) {
-    addr += plaidObject.meta.location.city.replace(/\s/g, "+");
+    addr += "+" + plaidObject.meta.location.city.replace(/\s/g, "+");
   }
   if (plaidObject.meta.location.state != null) {
-    addr += plaidObject.meta.location.state.replace(/\s/g, "+");
+    addr += "+" + plaidObject.meta.location.state.replace(/\s/g, "+");
   }
 
 //  var geocoder = new google.maps.Geocoder();
@@ -97,11 +100,13 @@ function addMarker(plaidObject) {
     data: {"address": addr, "key": key},
     success: function(data) {
       console.log(data);
+      if (data.results.length == 0)
+          return;
       var loc = new google.maps.LatLng(data.results[0].geometry.location.lat, data.results[0].geometry.location.lng);
 
       var marker = new google.maps.Marker({
         position: loc,
-        title: "Charged " + plaidObject.amount + " at " + plaidObject.name,
+        title: "Charged $" + plaidObject.amount + " at " + plaidObject.name,
         map: map
       });
 
