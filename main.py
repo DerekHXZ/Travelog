@@ -113,16 +113,6 @@ def transactions():
     if not transactions:
         return "", 403
     transactions = jsonify(transactions)
-    print("Map transactions")
-    map(lambda x: {
-                'location': {
-                    'lat':transaction.meta.location.coordinates.lat,
-                    'lng':transaction.meta.location.coordinates.lng
-                    },
-                'place':transaction.name,
-                'charge':transaction.amount
-                }, range(len(transactions)))
-
     print(transactions)
     map_key = os.environ.get("GOOGLE_KEY", "")
     return render_template('map.html', map_key=map_key, transactions=transactions)
