@@ -109,8 +109,8 @@ def transactions():
     plaid = Plaid(PLAID_ID, PLAID_KEY, key)
     print("got keys")
     transactions = plaid.getTransactions(options={
-            gte:start,
-            lte:end
+            'gte':start,
+            'lte':end
         })
     print("got transactions")
     print(start + " " + end)
