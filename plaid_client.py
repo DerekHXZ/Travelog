@@ -19,6 +19,7 @@ class Plaid:
             return transactions
 
     def getTransactions(self, options=None):
+        print options
         return self.client.transactions(options)
 
     def delete(self):
