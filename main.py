@@ -26,7 +26,8 @@ def check():
         else:
             ret = 201
         new_token = graph.extend_access_token(FB_KEY, FB_SECRET)
-        resp = make_response("", ret)
+        resp = make_response("")
+        resp.status_code = ret
         resp.set_cookie("fb_token", new_token["access_token"])
         return resp
 
