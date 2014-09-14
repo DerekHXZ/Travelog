@@ -110,10 +110,9 @@ def transactions():
             'gte':start,
             'lte':end
         })
-    print(transactions)
     if not transactions:
         return "", 403
-    transactions = jsonify(transactions["transactions"])
+    transactions = jsonify(transactions)
     print("Map transactions")
     transactions = [{
             'location': {

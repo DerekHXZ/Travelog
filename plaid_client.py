@@ -19,7 +19,6 @@ class Plaid:
             return transactions
 
     def getTransactions(self, options=None):
-        print options
         transactions = self.client.transactions(options)
         if transactions.ok:
             return json.loads(transactions.content)
