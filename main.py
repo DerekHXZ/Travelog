@@ -15,46 +15,45 @@ FB_SECRET = os.environ.get("FACEBOOK_API_SECRET", "")
 REDIS_URL = os.getenv('REDISTOGO_URL', 'redis://localhost:6379')
 
 def getFacebookId():
-    user = facebook.get_user_from_cookie(request.cookies, FB_KEY, FB_SECRET)
-    if user:
-        graph = facebook.GraphAPI(user["access_token"])
-        try:
-            print graph.extend_access_token(FB_KEY, FB_SECRET)
-        except facebook.GraphAPIError, e:
-            print e
-        return user["uid"]
-    else:
-        return None
 
 
 @app.route('/connect', methods=['GET'])
 def check():
     print "Called check"
-    fbId = getFacebookId()
-    print fbId
-    if fbId:
+    user = facebook.get_user_from_cookie(request.cookies, FB_KEY, FB_SECRET)
+    if user:
+        graph = facebook.GraphAPI(user["access_token"])
+        fbId = user["uid"]
         if redis.exists(fbId):
-            return "", 200
+            ret = 200
         else:
-            return "", 201
+            ret = 201
+        new_token = graph.extend_access_token(FB_KEY, FB_SECRET)
+        resp = make_response("", ret)
+        resp.set_cookie("fb_token", new_token["access_token"])
+        return resp
+
     return "", 400
 
 @app.route('/connect', methods=['POST'])
 def auth():
     print "Called auth"
-    fbId = getFacebookId()
-    if fbId:
-        accntype = request.form['type']
-        username = request.form['username']
-        password = request.form['password']
-        email = request.form['email']
+    fbToken = request.cookies["fb_token"]
+    graph = facebook.GraphAPI(user["access_token"])
+    if not graph:
+        return "", 400
+    fbId = graph.id
 
-        plaid = Plaid(PLAID_ID, PLAID_KEY)
-        secret_key = plaid.connect(accntype, username, password, email)
-        redis.set(fbId, secret_key)
-        return secret_key, 200
+    accntype = request.form['type']
+    username = request.form['username']
+    password = request.form['password']
+    email = request.form['email']
 
-    return "", 400
+    plaid = Plaid(PLAID_ID, PLAID_KEY)
+    secret_key = plaid.connect(accntype, username, password, email)
+    print secret_key
+    # redis.set(fbId, secret_key)
+    return secret_key, 200
 
 @app.route('/')
 def index():
