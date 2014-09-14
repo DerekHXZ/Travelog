@@ -106,7 +106,7 @@ function addMarker(plaidObject) {
 
       var marker = new google.maps.Marker({
         position: loc,
-        title: "Charged " + plaidObject.amount + " at " + plaidObject.name,
+        title: "Charged $" + plaidObject.amount + " at " + plaidObject.name,
         map: map
       });
 
