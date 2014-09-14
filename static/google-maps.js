@@ -1,6 +1,7 @@
 var map;
 var markers = [];
 var openInfoWindows = [];
+var myLoc;
 
 var plaidObjects = [
 {
@@ -38,10 +39,10 @@ var plaidObjects = [
 ];
 
 function initialize() {
-  var myLatlng = new google.maps.LatLng(40.8075,-73.9619);
+  var myLoc = new google.maps.LatLng(40.8075,-73.9619);
   
   var mapOptions = {
-    center: myLatlng,
+    center: myLoc,
     zoom: 8
   };
 
@@ -56,6 +57,8 @@ function initialize() {
   for (var i=0; i<plaidObjects.length; i++) {
     addMarker(plaidObjects[i]);
   }
+
+  console.log(isFraudulent());
 }
 
 // Add a marker to the map and push to the array.
@@ -110,6 +113,30 @@ function closeOpenWindows() {
   for(var infowindow in openInfoWindows) {
     infowindow.close();
   }
+}
+
+function isFraudulent() {
+  var params = "origins=" + myLoc.lat() + "," + myLoc.lng() + "&destinations=";
+  for (var i = 0; i < markers.length; i++) {
+    params += marker[i].getPosition().lat() + "," + marker[i].getPosition().lng();
+    if (i != markers.length-1) {
+      params += "|";
+    }
+  }
+
+  console.log(params);
+
+  $.ajax({
+    url: "http://maps.googleapis.com/maps/api/distancematrix/output?" + params,
+    data: data,
+    success: function(data) {
+      console.log(data);
+      for (var element in data.rows.elements) {
+        console.log(element.duration.text);
+      }
+    },
+    dataType: dataType
+  });
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
