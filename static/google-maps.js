@@ -77,15 +77,14 @@ function initialize() {
 
 // Add a marker to the map and push to the array.
 function addMarker(plaidObject) {
-  var url = "http://maps.googleapis.com/maps/api/geocode/output?address=";
-  url += plaidObject.name.replace(/\s/g, "+");
-  url += plaidObject.meta.location.city.replace(/\s/g, "+");
-  url += plaidObject.meta.location.state.replace(/\s/g, "+");
-  url += key;
+  var url = "http://maps.googleapis.com/maps/api/geocode/output";
+  var addr = plaidObject.name.replace(/\s/g, "+");
+  addr += plaidObject.meta.location.city.replace(/\s/g, "+");
+  addr += plaidObject.meta.location.state.replace(/\s/g, "+");
 
   $.ajax({
     url: url,
-    data: data,
+    data: {"address": addr, "key": key},
     success: function(data) {
       console.log(data);
       var loc = new google.maps.LatLng(data.results.geometry.location.lat, data.results.geometry.location.lng);
@@ -109,8 +108,7 @@ function addMarker(plaidObject) {
 
       markers.push(marker);
 
-    },
-    dataType: dataType
+    }
   });
 }
 
