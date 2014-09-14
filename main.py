@@ -16,6 +16,7 @@ REDIS_URL = os.getenv('REDISTOGO_URL', 'redis://localhost:6379')
 
 def getFacebookId():
     user = facebook.get_user_from_cookie(request.cookies, FB_KEY, FB_SECRET)
+    print user
     if user:
         return user["uid"]
     else:
@@ -61,7 +62,7 @@ def index():
 # For Google Map API test purpose
 @app.route('/map')
 def map():
-    print("Called map")    
+    print("Called map")
     map_key = os.environ.get("GOOGLE_KEY", "")
     transactions = getTransactions()
     return render_template('map.html', map_key=map_key, transactions=transactions)
