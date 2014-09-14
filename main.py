@@ -6,6 +6,7 @@ from flask import Flask
 from flask import request
 from flask import render_template
 from flask import make_response
+from flask import jsonify
 
 app = Flask(__name__)
 
@@ -51,9 +52,13 @@ def auth():
 
     plaid = Plaid(PLAID_ID, PLAID_KEY)
     plaid_resp = plaid.connect(accntype, username, password, email)
-    print plaid_resp
+    if not plaid_resp:
+        return "", 403
     redis.set(fbId, plaid_resp['access_token'])
-    return "", 200
+    if plaid_resp['mfa']:
+        return plaid_resp['mfa']['message'], 201
+    else:
+        return "", 200
 
 @app.route('/')
 def index():

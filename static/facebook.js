@@ -1,3 +1,8 @@
+function mfaResonse(response) {
+  $("#svr-veri").show();
+  $("#svr-question").text(response);
+}
+
 $("#svr-login").submit(function (e) {
   var postData = $(this).serializeArray();
   var formURL = $(this).attr("action");
@@ -6,13 +11,18 @@ $("#svr-login").submit(function (e) {
       url : formURL,
       type: "POST",
       data : postData,
-      success:function(data, textStatus, jqXHR) 
-      {
-          console.log(data)
-      },
-      error: function(jqXHR, textStatus, errorThrown) 
-      {
-          //if fails      
+      statusCode : {
+        200: function() {
+          $("#svr-connect").hide();
+          $("#main").show();
+        },
+        201: function(response) {
+          $("#svr-connect").hide();
+          mfaResponse(response);
+        },
+        403: function() {
+          alert("An error happened");
+        }
       }
   });
   e.preventDefault(); //STOP default action
@@ -28,6 +38,7 @@ function serverConnect() {
     statusCode: {
       200: function() {
         $('#svr-connect').hide();
+        $('#main').show();
       },
       201: function() {
         $('#svr-connect').show();
