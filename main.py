@@ -104,12 +104,8 @@ def transactions():
     daterange = request.form['daterange']
     dates = daterange.split("-")
     print(dates[0].strip())
-    time.strptime(dates[0].strip(), "%m/%d/%Y")
-    print("reached")
-    start = time.strptime(dates[0].strip(), "%m/%d/%Y").isoformat()
-    end = time.strptime(dates[1].strip(), "%m/%d/%Y").isoformat()
-    print("Start: " + start)
-    print("End " + end)
+    start = time.strptime(dates[0].strip(), "%m/%d/%Y")
+    end = time.strptime(dates[1].strip(), "%m/%d/%Y")
     plaid = Plaid(PLAID_ID, PLAID_KEY, key)
     transactions = plaid.getTransactions(options={
             gte:start,
