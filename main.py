@@ -111,7 +111,19 @@ def transactions():
         })
     if not transactions:
         return "", 403
-    return jsonify(transactions["transactions"]), 200
+    transactions = jsonify(transactions["transactions"])
+    transactions = [{
+            'location': {
+                'lat':transaction.meta.location.coordinates.lat,
+                'lng':transaction.meta.location.coordinates.lng
+                },
+            'place':transaction.name,
+            'charge':transaction.amount
+            } for transaction in transactions]
+
+    print(transactions)
+    map_key = os.environ.get("GOOGLE_KEY", "")
+    return render_template('map.html', map_key=map_key, transactions=transactions)
 
 @app.route('/')
 def index():
