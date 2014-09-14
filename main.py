@@ -114,8 +114,7 @@ def transactions():
         return "", 403
     print(transactions)
     map_key = os.environ.get("GOOGLE_KEY", "")
-    ret = "\"".join(transactions['transactions'].split("'"))
-    return render_template('map.html', map_key=map_key, transactions=ret)
+    return render_template('map.html', map_key=map_key, transactions=transactions['transactions'])
 
 @app.route('/')
 def index():
