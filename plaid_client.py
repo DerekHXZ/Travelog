@@ -18,5 +18,8 @@ class Plaid:
             transactions = json.loads(step.content)
             return transactions
 
-    def transactions():
-        return self.client.transactions
+    def transactions(self, options=None):
+        return self.client.transaction(options)
+
+    def delete(self):
+        self.client.delete_user()

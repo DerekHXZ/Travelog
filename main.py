@@ -3,6 +3,7 @@ import facebook
 from plaid_client import Plaid
 from store import redis
 from flask import Flask
+from flask import redirect
 from flask import request
 from flask import render_template
 from flask import make_response
@@ -15,6 +16,7 @@ PLAID_KEY = os.environ.get("PLAID_KEY", "")
 FB_KEY = os.environ.get("FACEBOOK_API_ID", "")
 FB_SECRET = os.environ.get("FACEBOOK_API_SECRET", "")
 REDIS_URL = os.getenv('REDISTOGO_URL', 'redis://localhost:6379')
+
 
 @app.route('/connect', methods=['GET'])
 def check():
@@ -43,6 +45,17 @@ def getFbId():
     profile = graph.get_object("me")
     fbId = profile['id']
     return fbId
+
+@app.route('/unlink', methods=['GET', 'POST'])
+def unlink():
+    fbId = getFbId()
+    if not fbId:
+        return "", 403
+    key = redis.get(fbId)
+    redis.delete(key)
+    plaid = Plaid(PLAID_ID, PLAID_KEY, key)
+    plaid.delete()
+    return redirect("/", code=302)
 
 @app.route('/connect/step', methods=['POST'])
 def mfa():
