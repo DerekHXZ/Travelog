@@ -5,36 +5,52 @@ var myLoc;
 
 var plaidObjects = [
 {
-  location: {
-    lat: 42.3744,
-    lng: -71.1169
+  meta: {
+    location: {
+      coordinates: {
+        lat: 42.3744,
+        lng: -71.1169
+      }
+    }
   },
-  place: "Harvard",
-  charge: "$55,000"
+  name: "Harvard",
+  amount: "$55,000"
 },
 {
-  location: {
-    lat: 41.3111,
-    lng: -72.9267
+  meta: {
+    location: {
+      coordinates: {
+        lat: 41.3111,
+        lng: -72.9267
+      }
+    }
   },
-  place: "Yale",
-  charge: "$52,000"
+  name: "Yale",
+  amount: "$52,000"
 },
 {
-  location: {
-    lat: 40.3487,
-    lng: -74.6593
+  meta: {
+    location: {
+      coordinates: {
+        lat: 40.3487,
+        lng: -74.6593
+      }
+    }
   },
-  place: "Princeton",
-  charge: "$50,000"
+  name: "Princeton",
+  amount: "$50,000"
 },
 {
-  location: {
-    lat: 40.8075,
-    lng: -73.9619
+  meta: {
+    location: {
+      coordinates: {
+        lat: 40.8075,
+        lng: -73.9619
+      }
+    }
   },
-  place: "Columbia",
-  charge: "$60,000"
+  name: "Columbia",
+  amount: "$60,000"
 }
 ];
 
@@ -63,11 +79,11 @@ function initialize() {
 
 // Add a marker to the map and push to the array.
 function addMarker(plaidObject) {
-  var loc = new google.maps.LatLng(plaidObject.location.lat, plaidObject.location.lng);
+  var loc = new google.maps.LatLng(plaidObject.meta.location.coordinates.lat, plaidObject.meta.location.coordinates.lng);
 
   var marker = new google.maps.Marker({
     position: loc,
-    title: "Charged " + plaidObject.charge + " at " + plaidObject.place,
+    title: "Charged " + plaidObject.amount + " at " + plaidObject.name,
     map: map
   });
 
