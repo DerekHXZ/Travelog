@@ -96,7 +96,6 @@ def auth():
 
 @app.route('/transactions', methods=['POST'])
 def transactions():
-    print "Called transactions"
     fbId = getFbId()
     if not fbId:
         return "", 403
@@ -105,21 +104,14 @@ def transactions():
     dates = daterange.split("-")
     start = "-".join(dates[0].split("/"))
     end = "-".join(dates[1].split("/"))
-    # start = time.strptime(dates[0].strip(), "%m/%d/%Y")
-    # end = time.strptime(dates[1].strip(), "%m/%d/%Y")
-    print("Got start and end")
     plaid = Plaid(PLAID_ID, PLAID_KEY, key)
-    print("got keys")
     transactions = plaid.getTransactions(options={
             'gte':start,
             'lte':end
         })
-    print("got transactions")
-    print(start + " " + end)
-    print(transactions)
     if not transactions:
         return "", 403
-    return jsonify(transactions), 200
+    return jsonify(transactions["transactions"]), 200
 
 @app.route('/')
 def index():
