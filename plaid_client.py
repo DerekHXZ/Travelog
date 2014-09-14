@@ -3,8 +3,8 @@ from plaid import Client
 
 class Plaid:
 
-    def __init__(self, clientId, clientSecret):
-        self.client = Client(client_id=clientId, secret=clientSecret)
+    def __init__(self, clientId, clientSecret, accessToken=None):
+        self.client = Client(client_id=clientId, secret=clientSecret, access_token=accessToken)
 
     def connect(self, accountType, username, password, email):
         connect = self.client.connect(account_type=accountType, username=username, password=password, email=email)
