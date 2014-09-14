@@ -16,7 +16,7 @@ REDIS_URL = os.getenv('REDISTOGO_URL', 'redis://localhost:6379')
 
 def getFacebookId():
     user = facebook.get_user_from_cookie(request.cookies, FB_KEY, FB_SECRET)
-    print user
+    print request.cookies
     if user:
         return user["uid"]
     else:
