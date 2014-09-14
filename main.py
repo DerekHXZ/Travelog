@@ -14,9 +14,6 @@ FB_KEY = os.environ.get("FACEBOOK_API_ID", "")
 FB_SECRET = os.environ.get("FACEBOOK_API_SECRET", "")
 REDIS_URL = os.getenv('REDISTOGO_URL', 'redis://localhost:6379')
 
-def getFacebookId():
-
-
 @app.route('/connect', methods=['GET'])
 def check():
     print "Called check"
