@@ -74,7 +74,7 @@ function initialize() {
     addMarker(plaidObjects[i]);
   }
 
-  console.log(isFraudulent());
+  //console.log(isFraudulent());
 }
 
 // Add a marker to the map and push to the array.
