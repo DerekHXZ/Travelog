@@ -112,7 +112,7 @@ def transactions():
         })
     if not transactions:
         return "", 403
-    print(transactions['transcations'])
+    print(transactions)
     map_key = os.environ.get("GOOGLE_KEY", "")
     return render_template('map.html', map_key=map_key, transactions=json.dumps(transactions['transactions']))
 
