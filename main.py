@@ -39,18 +39,15 @@ def auth():
     print "Called auth"
     fbId = getFacebookId()
     if fbId:
-        if redis.exists(fbId):
-            return "", 200
-        else:
-            accntype = request.form['type']
-            username = request.form['username']
-            password = request.form['password']
-            email = request.form['email']
+        accntype = request.form['type']
+        username = request.form['username']
+        password = request.form['password']
+        email = request.form['email']
 
-            plaid = Plaid(PLAID_ID, PLAID_KEY)
-            secret_key = plaid.connect(accntype, username, password, email)
-            redis.set(fbId, secret_key)
-            return secret_key, 200
+        plaid = Plaid(PLAID_ID, PLAID_KEY)
+        secret_key = plaid.connect(accntype, username, password, email)
+        redis.set(fbId, secret_key)
+        return secret_key, 200
 
     return "", 400
 
