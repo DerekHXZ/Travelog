@@ -1,6 +1,6 @@
 import os
 import facebook
-import plaid
+from plaid_client import Plaid
 from store import redis
 from flask import Flask
 from flask import request
@@ -42,11 +42,8 @@ def auth():
     if not graph:
         return "", 400
     profile = graph.get_object("me")
-    print profile
     fbId = profile['id']
-    print fbId
 
-    print request.form
     accntype = request.form['type']
     username = request.form['username']
     password = request.form['password']
